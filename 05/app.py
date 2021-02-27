@@ -36,14 +36,12 @@ def decode_col(encoded_col):
 	LOWER_HALF = 'R'
 
 	seat_range = [0, 7]
-	print(encoded_col)
 	for command in encoded_col:
 		if command is UPPER_HALF:
 			seat_range[1] = seat_range[1] - get_half(seat_range)
 
 		if command is LOWER_HALF:
 			seat_range[0] = seat_range[0] + get_half(seat_range)
-		print(seat_range)
 
 	last_command = encoded_col[-1]
 	if last_command is UPPER_HALF:
@@ -52,6 +50,9 @@ def decode_col(encoded_col):
 	return seat_range[0]
 
 seats_decoded = []
+
+
+seat_cords = [''] * 128
 for seat in seats:
 	# first 7 letters are for rows, last 3 are for col
 	seat_row_encoded = seat[0:7]
@@ -61,12 +62,15 @@ for seat in seats:
 	col = decode_col(seat_col_encoded)
 	
 	seats_decoded.append(row * 8 + col)
+	seat_cords[row] = seat_cords[row] + str(col)
+
+seats_decoded.sort()
+
+for index, cord in enumerate(seat_cords):
+	if len(cord) != 8 and len(cord) > 0:
+		print(cord)
+		print(index)
 
 
 
 
-
-	print('\n')
-
-seats_decoded.sort(reverse=True)
-print(seats_decoded[0])
